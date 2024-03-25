@@ -1,15 +1,15 @@
 import 'dart:html';
-
+import 'package:provider/provider.dart';
+import 'package:flutter_todo/models/task_data.dart';
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  AddTaskScreen({super.key, required this.addTask});
-
-  final Function addTask;
-  String? addTaskTitle;
 
   @override
   Widget build(BuildContext context) {
+
+    String? addTaskTitle;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 80),
       child: Center(
@@ -36,7 +36,8 @@ class AddTaskScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                addTask(addTaskTitle);
+                Provider.of<TaskData>(context, listen: false).addTask(addTaskTitle);
+                Navigator.pop(context);
               },
               child: Text('Add', style:
                 TextStyle(
