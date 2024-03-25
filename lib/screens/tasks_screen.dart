@@ -2,9 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/widgets/tasks_list.dart';
 import 'add_task_screen.dart';
+import 'package:flutter_todo/models/task.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
+
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+
+  List<Task> tasks = [
+    Task(name: 'Buy Milk'),
+    Task(name: 'Buy Eggs'),
+    Task(name: 'Buy Fruits'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +28,7 @@ class TasksScreen extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(top: 40, left: 20, bottom: 20),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
@@ -32,7 +45,7 @@ class TasksScreen extends StatelessWidget {
                     color: Colors.white
                   )
                 ),
-                Text('12 Tasks',
+                Text('${tasks.length} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18
@@ -47,14 +60,21 @@ class TasksScreen extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
               ),
-              child: TasksList(),
+              child: TasksList(tasks: tasks),
             ),
           )
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(context: context, builder: (context) => AddTaskScreen());
+          showModalBottomSheet(context: context, builder: (context) => AddTaskScreen(
+            addTask: (addTaskTitle) {
+              setState(() {
+                tasks.add(Task(name: addTaskTitle));
+              });
+              Navigator.pop(context);
+            },
+          ));
         },
         backgroundColor: Colors.lightBlueAccent,
         shape: CircleBorder(),

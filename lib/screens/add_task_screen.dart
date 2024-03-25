@@ -3,7 +3,10 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({super.key});
+  AddTaskScreen({super.key, required this.addTask});
+
+  final Function addTask;
+  String? addTaskTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +27,17 @@ class AddTaskScreen extends StatelessWidget {
             TextField(
               autofocus: true,
               textAlign: TextAlign.center,
+              onChanged: (value) {
+                addTaskTitle = value;
+              },
             ),
             SizedBox(
               height: 20,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                addTask(addTaskTitle);
+              },
               child: Text('Add', style:
                 TextStyle(
                   color: Colors.white
