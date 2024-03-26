@@ -1,6 +1,4 @@
 import 'dart:collection';
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'task.dart';
 
@@ -23,6 +21,16 @@ class TaskData extends ChangeNotifier {
   void addTask(newTaskTitle) {
     Task newTask = Task(name: newTaskTitle);
     _tasks.add(newTask);
+    notifyListeners();
+  }
+
+  void updateTask(Task task) {
+    task.toggleDone();
+    notifyListeners();
+  }
+
+  void deleteTask(Task task) {
+    _tasks.remove(task);
     notifyListeners();
   }
 }
